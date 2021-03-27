@@ -164,7 +164,7 @@ class _MyDialogState extends State<MyDialog> {
     // var _dio = Dio();
 
     FormData formData = new FormData.fromMap({
-      'image': MultipartFile.fromString(_pickedImage.path)
+      'image': MultipartFile.fromFileSync(_pickedImage.path)
     });
 
     // await _dio.post('http://studentapi.myknitu.ru/send/', data: formData);
@@ -247,11 +247,11 @@ class _MyDialogState extends State<MyDialog> {
               child: Text('Отправить'),
               onPressed: (){
                 uploadImage();
-                // Navigator.pushAndRemoveUntil(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => new GalleryScreen()),
-                //       (Route<dynamic> route) => false,
-                // );
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => new GalleryScreen()),
+                      (Route<dynamic> route) => false,
+                );
               },
             )
           ],
