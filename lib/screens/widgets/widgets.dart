@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:trp_shut_off/data/token_storage.dart';
 
 import '../chat_screen.dart';
+import '../gallery_screen.dart';
 import '../login_screen.dart';
 import '../other_users.dart';
 import '../user_profile.dart';
@@ -12,16 +14,23 @@ Widget bottomBar(BuildContext context, _key) {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         IconButton(
-          tooltip: 'Search',
+          tooltip: 'Galery',
           icon: const Icon(Icons.image_outlined),
-          onPressed: () {},
+          onPressed: () {
+            if (!context.toString().contains('GalleryScreen')) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => GalleryScreen()));
+            }
+          },
         ),
         IconButton(
-          tooltip: 'Favorite',
+          tooltip: 'Dialogs',
           icon: const Icon(Icons.chat),
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ChatScreen()));
+            if (!context.toString().contains('ChatScreen')) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ChatScreen()));
+            }
           },
         ),
         IconButton(
@@ -84,3 +93,4 @@ Widget leftDrawer(BuildContext context) {
     ),
   );
 }
+

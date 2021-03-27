@@ -18,13 +18,19 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
   UserDataModel user = UserDataModel();
   bool editing = false;
   Future _futureData;
   File _pickedImage;
   final picker = ImagePicker();
+
+  TextEditingController _phoneNumberController = new TextEditingController();
+  TextEditingController _familyController = new TextEditingController();
+  TextEditingController _userController = new TextEditingController();
+  TextEditingController _birthdayController = new TextEditingController();
+  TextEditingController _vkController = new TextEditingController();
+  TextEditingController _skypeController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,20 +79,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           onTap: () async {
             String _token = await getTokenFromStorage();
             try {
-              await UserServices().updateUserData(UpdateUserDataRequestBody(
-                  token: _token,
-                  user: user.user,
-                  family: user.family,
-                  birthday: user.birthday,
-                  phoneNumber: user.phoneNumber,
-                  vk: user.vk,
-                  skype: user.skype));
+              UpdateUserDataRequestBody _userRequestBody =
+                  UpdateUserDataRequestBody(
+                      token: _token,
+                      user: user.user,
+                      family: user.family,
+                      birthday: user.birthday,
+                      phoneNumber: user.phoneNumber,
+                      vk: user.vk,
+                      skype: user.skype);
+              await UserServices().updateUserData(_userRequestBody);
             } catch (error) {
               print(error);
             }
             List<int> imageBytes = _pickedImage.readAsBytesSync();
             try {
-              await UserServices().updateUserImage(UpdateUserImageRequestsBody(token: _token, image: base64Encode(imageBytes)));
+              await UserServices().updateUserImage(UpdateUserImageRequestsBody(
+                  token: _token, image: base64Encode(imageBytes)));
             } catch (error) {
               print(error);
             }
@@ -179,14 +188,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return ListView(
       children: [
         userImageField(),
-        userDataField('Логин', user.login),
-        userDataField('Номер телефона', user.phoneNumber),
-        userDataField('Фамилия', user.family),
-        // userDataField('Фамилия', 'user.family'),
-        userDataField('Имя', user.user),
-        userDataField('Дата рождения', user.birthday),
-        userDataField('VK', user.vk),
-        userDataField('Skype', user.skype),
+        userDataField('Логин', user.login, null),
+        userDataField(
+            'Номер телефона', user.phoneNumber, _phoneNumberController),
+        userDataField('Фамилия', user.family, _familyController),
+        userDataField('Имя', user.user, _userController),
+        userDataField('Дата рождения', user.birthday, _birthdayController),
+        userDataField('VK', user.vk, _vkController),
+        userDataField('Skype', user.skype, _skypeController),
       ],
     );
   }
@@ -202,8 +211,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: (){
-          if(editing){
+        onTap: () {
+          if (editing) {
             getImage();
           }
         },
@@ -216,14 +225,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  Widget userDataField(String label, String data) {
-    TextEditingController _moduleController = new TextEditingController();
-    _moduleController.text = data;
+  Widget userDataField(
+      String label, String data, TextEditingController _moduleController) {
+    if (_moduleController != null) {
+      _moduleController.text = data;
+    }
+
     return Padding(
         padding:
             const EdgeInsets.only(top: 4.0, bottom: 4.0, left: 8.0, right: 8.0),
         child: TextFormField(
           controller: _moduleController,
+          initialValue: _moduleController == null ? data : null,
           readOnly: !editing,
           enabled: editing,
           decoration: InputDecoration(
@@ -232,6 +245,4 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
         ));
   }
-
-
 }

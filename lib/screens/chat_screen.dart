@@ -15,7 +15,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        leading: new Container(),
+        leading: Icon(Icons.chat),
         title: Text('Диалоги'),
         actions: [createNewDialog()],
       ),

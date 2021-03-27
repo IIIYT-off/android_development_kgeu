@@ -76,20 +76,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: <Widget>[
-            Icon(
-              Icons.message,
-              size: 20,
-            ),
-            SizedBox(
-              width: 2,
-            ),
-            Text(
-              "Отправить сообщение",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-          ],
+        child: Container(
+          child: Row(
+            children: <Widget>[
+              Icon(
+                Icons.message,
+                size: 20,
+              ),
+              SizedBox(
+                width: 2,
+              ),
+              Text(
+                "Отправить сообщение",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
       ),
     );

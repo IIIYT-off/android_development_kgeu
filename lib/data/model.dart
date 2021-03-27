@@ -36,3 +36,9 @@ class DialogDataModel {
 
   DialogDataModel({this.message, this.datetime, this.sender, this.receiver});
 }
+
+class InternetImage {
+  String image;
+
+  InternetImage({this.image});
+}
