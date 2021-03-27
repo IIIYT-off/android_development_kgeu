@@ -82,25 +82,29 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               UpdateUserDataRequestBody _userRequestBody =
                   UpdateUserDataRequestBody(
                       token: _token,
-                      user: user.user,
-                      family: user.family,
-                      birthday: user.birthday,
-                      phoneNumber: user.phoneNumber,
-                      vk: user.vk,
-                      skype: user.skype);
+                      user: _userController.text,
+                      family: _familyController.text,
+                      birthday: _birthdayController.text,
+                      phoneNumber: _phoneNumberController.text,
+                      vk: _vkController.text,
+                      skype: _skypeController.text);
               await UserServices().updateUserData(_userRequestBody);
             } catch (error) {
               print(error);
             }
-            List<int> imageBytes = _pickedImage.readAsBytesSync();
-            try {
-              await UserServices().updateUserImage(UpdateUserImageRequestsBody(
-                  token: _token, image: base64Encode(imageBytes)));
-            } catch (error) {
-              print(error);
+            if (_pickedImage != null) {
+              List<int> imageBytes = _pickedImage.readAsBytesSync();
+              try {
+                await UserServices().updateUserImage(
+                    UpdateUserImageRequestsBody(
+                        token: _token, image: base64Encode(imageBytes)));
+              } catch (error) {
+                print(error);
+              }
+              _pickedImage = null;
             }
             editing = false;
-            _pickedImage = null;
+
             print('save');
             refreshList();
           },
