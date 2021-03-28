@@ -77,13 +77,14 @@ class UpdateUserDataRequestBody {
 
   Map<String, dynamic> toApi() {
     return {
-      'token': token,
+
       'nameuser': user,
       'family': family,
       'birthday': birthday,
       'phonenumber': phoneNumber,
       'vk': vk,
       'skype': skype,
+      'token': token,
     };
   }
 

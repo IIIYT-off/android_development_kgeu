@@ -127,6 +127,7 @@ class _LogInScreenState extends State<LogInScreen> {
         );
       } else {
         //Пользователь с таким Логином уже зарегистрирован
+        errorMsg('Пользователь с таким Логином уже зарегистрирован');
         print(response.data);
       }
     } else {
@@ -150,11 +151,23 @@ class _LogInScreenState extends State<LogInScreen> {
           (Route<dynamic> route) => false,
         );
       } else {
-        //Не верные данные авторизации
+        errorMsg('Ошибка авторизации');
         print(response.data);
       }
     } else {
       print(response.statusCode);
     }
+  }
+
+  errorMsg(String error){
+    final snackBar = SnackBar(
+      content: Text(error),
+      action: SnackBarAction(
+        label: 'Ок',
+        onPressed: () {
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
